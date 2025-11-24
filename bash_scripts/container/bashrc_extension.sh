@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------
-# Custom environment for AHNDAS dev‑container
+# Custom environment for container
 # ------------------------------------------------------------
 
 

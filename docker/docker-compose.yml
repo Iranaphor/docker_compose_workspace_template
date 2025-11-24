@@ -31,7 +31,7 @@ services:
       - ROS_DOMAIN_ID=100
       - AUTO_LAUNCH_TMULE=true
 
-    command: ["bash", "-l", "-c", "/home/ros/bash_scripts/start.sh"]
+    command: ["bash", "-l", "-c", "/home/ros/bash_scripts/start.sh 3000"]
 
 volumes:
   colcon_cache:

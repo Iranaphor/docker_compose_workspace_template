@@ -29,9 +29,18 @@ RUN apt-get update && apt-get install -y sudo git \
 # 3. Empty workspace skeleton
 #    (sources come in as volumes at run‑time)
 # ──────────────────────────────
-ENV ROS_WS=/home/${USERNAME}/ros2_ws
-RUN mkdir -p ${ROS_WS}/src \
- && chown -R ${USERNAME}:${USERNAME} ${ROS_WS}
+ENV WS=/home/${USERNAME}/ros2_ws
+RUN mkdir -p ${WS}/src \
+    && chown -R ${USERNAME}:${USERNAME} ${WS}
+
+# Load locally-cloned packages
+#COPY .. ${WS}/src/environment_template
+# NOTE: Can be overriden by docker compose volumes
+
+# Clone packages from a remote
+#ENV ENVCOMMON_URL=https://github.com/LCAS/environment_common.git
+#RUN git clone --depth 1 ${ENVCOMMON_URL} ${WS}/src/environment_common
+# NOTE: Can be overriden by docker compose volumes
 
 # ──────────────────────────────
 # 4. Toolchain + rosdep

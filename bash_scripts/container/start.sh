@@ -43,15 +43,25 @@ export RCUTILS_CONSOLE_OUTPUT_FORMAT="{severity}: {message}"
 export RCUTILS_COLORIZED_OUTPUT=1
 
 
-echo -e "\n\n\nLaunching TMULE (conditional)\n"
 if [ "$AUTO_LAUNCH_TMULE" = "true" ]; then
-    tm launch
+    echo -e "\n\n\nLaunching TMULE (conditional)\n"
+    if [ -f "$TMULE_FILE" ]; then
+        tmule -c "$TMULE_FILE" launch
+    else
+        echo "\$TMULE_FILE not found"
+    fi
 fi
 
 
 echo -e "\n\n\n######################################"
 echo -e "Start script completed."
 echo -e "Container will continue running for: ${TOTAL_SLEEP_TIME}s"
+if [ "${TOTAL_SLEEP_TIME}" != "infinity" ]; then
+    END_TIME=$(date --date="now + ${TOTAL_SLEEP_TIME} seconds" +"%Y-%m-%d %H:%M:%S")
+    echo -e "Sleep will end at: ${END_TIME}"
+else
+    echo -e "Sleep will end: never (infinity)"
+fi
 echo -e "Open a new terminal and connect with:"
 echo -e "            _attach"
 echo -e "############################################\n"
@@ -59,9 +69,11 @@ echo -e "############################################\n"
 sleep "${TOTAL_SLEEP_TIME}"
 
 
-echo -e "\n\n\nBeginning Termination\n"
 if [ "$AUTO_LAUNCH_TMULE" = "true" ]; then
-    tm terminate
+    echo -e "\n\n\nBeginning Termination\n"
+    if [ -f "$TMULE_FILE" ]; then
+        tmule -c "$TMULE_FILE" terminate
+    fi
 fi
 
 exec sleep "1"
